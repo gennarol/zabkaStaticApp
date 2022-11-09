@@ -1,0 +1,48 @@
+﻿@page "/billInformation"
+
+<PageTitle>Bill Payment Service</PageTitle>
+
+<div class="top-row px-4">
+    <div class="grid">
+        <div class="grid__col -col-12 -col-sm-8 -off-sm-2 -col-md-8 -off-md-2">
+            <h2 class="title -h3">Bill information</h2>
+            <form name="cooperation" method="post" novalidation="novalidation">
+                <h3 class="form__header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bill issuer information</font></font></font></font></h3>
+                <div class="grid">
+                    <div class="grid__col -col-xl-6">
+                        <div class="form__row ">
+                            <label for="cooperation_applicant_company" class="form__label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bill identification number</font></font></font></font><span class="form__label-asterisk"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">*</font></font></font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">:</font></font></font></font></label>
+                            <div class="form__inner">
+                                <input type="text" id="cooperation_applicant_company" name="cooperation[applicant][company]" required="" placeholder="Identification number" class="form__input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__col -col-xl-6">
+                        <div class="form__row ">
+                            <label for="cooperation_applicant_contactPerson" class="form__label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Amount</font></font></font></font><span class="form__label-asterisk"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">*</font></font></font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">:</font></font></font></font></label>
+                            <div class="form__inner">
+                                <input type="text" id="cooperation_applicant_contactPerson" name="cooperation[applicant][contactPerson]" required="" placeholder="Amount" class="form__input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form__row -tight">
+                    <div class="form__inner">
+                    </div>
+                </div> <a href="/summary" id="cooperation_submit" name="cooperation[submit]" class="button cooperation__form-submit" disabled="disabled">
+                    Continue <span class="icon button__icon -right">
+                        <svg>
+                            <use xlink:href="#icon-arrow-right"></use>
+                        </svg>
+                    </span>
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+}
