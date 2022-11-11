@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JS
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject NavigationManager NavManager
 
 <nav id="navigation" class="navigation">
     <div class="navigation__bg"></div>
@@ -172,10 +174,10 @@
 
 <div class="page">
     <main>        
-        <article class="content px-4">   
-            @if(output != "Login")
-            {
-                @Body
+        <article class="content px-4">               
+            @if("disabilitato" != "Login")
+            {                
+                @Body                
             }
             else
             {
@@ -237,10 +239,18 @@
 
     private string output = "";
     private string loginLogut = "";
+    private bool operationIsCompleted = false;
+    Request current;
+
 
 
     protected async override Task OnParametersSetAsync()
     {
+        current = await sessionStorage.GetItemAsync<Request>("request");
+
+        if (current != null && current.Completed)
+            operationIsCompleted = true;
+        
         try
         {
             var a = await JS.InvokeAsync<UserMessage>("getUserInfo");
@@ -257,6 +267,12 @@
         }
         catch
         {
+        }
+
+        if (operationIsCompleted)
+        {
+            NavManager.NavigateTo("/finalPage");
+
         }
         return;
     }

@@ -1,4 +1,8 @@
-﻿@page "/issuer"
+﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject NavigationManager NavManager
+
+
+@page "/issuer"
 
 <PageTitle>Bill Payment Service</PageTitle>
 
@@ -38,5 +42,11 @@
 
 
 @code {
+    Request? current;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        current = await sessionStorage.GetItemAsync<Request>("request");
+    }
 
 }

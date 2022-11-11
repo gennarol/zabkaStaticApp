@@ -1,4 +1,7 @@
-﻿@page "/summary"
+﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject NavigationManager NavManager
+
+@page "/summary"
 
 <section class="section contact">
     <div class="container section__container">
@@ -18,7 +21,7 @@
                                     </svg>
                                 </span>
                             </a>
-                            <h3 class="title -h5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Surname, Name</font></font></h3>
+                            <h3 class="title -h5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@current?.CustomerName</font></font></h3>
                             <p class="text -large -marked"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ul. </font><font style="vertical-align: inherit;">Street 1234</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">61-586 Poznań</font></font></p>
                         </div>
                     </div>
@@ -66,7 +69,7 @@
                 <div class="form__row -tight">
                     <div class="form__inner">
                     </div>
-                </div> <a href="/" id="cooperation_submit" name="cooperation[submit]" class="button cooperation__form-submit" disabled="disabled">
+                </div> <a @onclick="OK" id="cooperation_submit" name="cooperation[submit]" class="button cooperation__form-submit" disabled="disabled">
                     Confirm <span class="icon button__icon -right">
                         <svg>
                             <use xlink:href="#icon-arrow-right"></use>
@@ -79,5 +82,21 @@
 </section>
 
 @code {
+    private string? customerName;
+    Request? current;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        current = await sessionStorage.GetItemAsync<Request>("request");        
+
+    }
+
+    public void OK()
+    {
+        current.Completed = true;
+        sessionStorage.SetItemAsync<Request>("request", current);
+        NavManager.NavigateTo("/finalPage");
+    }
 
 }
+
