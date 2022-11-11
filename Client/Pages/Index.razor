@@ -1,7 +1,8 @@
-﻿@page "/"
+﻿@inject IJSRuntime JS
+
+@page "/bill"
 
 <PageTitle>Bill Payment Service</PageTitle>
-
 <div class="top-row px-4">
     <div class="grid">    
         <div class="grid__col -col-12 -col-sm-8 -off-sm-2 -col-md-8 -off-md-2">
@@ -75,13 +76,3 @@
         </div>
     </div>
 </div>
-
-
-@code 
-{
-    
-    private string enabled()
-    {
-        return "-disabled";
-    }
-}

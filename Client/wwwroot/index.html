@@ -12,6 +12,22 @@
 </head>
 
 <body>
+    <script>
+        async function getUserInfo() {
+            const response = await fetch('/.auth/me');
+            
+            try {
+                const payload = await response.json();
+                const { clientPrincipal } = payload;
+                return clientPrincipal;
+
+            }
+            catch
+            {
+                return "{}";
+            }                        
+        }
+    </script>
     <link rel="stylesheet" href="https://media.zabka.pl/assets/css/style-3cd4d1c103.css">
 
 
