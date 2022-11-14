@@ -1,6 +1,7 @@
 ﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject NavigationManager NavManager
 @using Microsoft.AspNetCore.SignalR.Client
+@inject HttpClient Http
 
 @page "/summary"
 
@@ -133,7 +134,9 @@
         t.Quantity = "1.00";
         t.Amount = "100.00";
         await sessionStorage.SetItemAsync<Request>("request", current);        
-        await _hubConnection.SendAsync("posTransaction", t);        
+        //await _hubConnection.SendAsync("posTransaction", t);
+        await Http.PostAsync($"{NavManager.BaseUri}api/messages", JsonContent.Create(t, typeof(Transaction)));
+        //Http.PostAsync($"{NavManager.BaseUri}api/messages", 
         //NavManager.NavigateTo("/finalPage");
         
     }
