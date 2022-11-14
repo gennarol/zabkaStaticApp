@@ -14,6 +14,7 @@ namespace SignalR
 
     public class Transaction
     {
+        
         public string ConnectionId { get; set; }
         public String ServiceName { get; set; }
         public String Quantity { get; set; }

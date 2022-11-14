@@ -3,7 +3,7 @@
   "configurations": {
     "zabka-static-app": {
       "appLocation": "Client",
-      "apiLocation": "api",
+      "apiLocation": "Api",
       "outputLocation": "bin\\wwwroot",
       "appBuildCommand": "dotnet publish -c Release -o bin",
       "apiBuildCommand": "dotnet publish -c Release",
