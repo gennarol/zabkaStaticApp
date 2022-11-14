@@ -35,9 +35,7 @@ namespace SignalR
         public static async Task<string> SendMessage(
               [HttpTrigger(AuthorizationLevel.Anonymous, "post")] Transaction message,
               [SignalR(HubName = "posTransaction")] IAsyncCollector<SignalRMessage> signalRMessages)
-        {
-
-            
+        {            
             await signalRMessages.AddAsync(
                 new SignalRMessage
                 {   Target = "posTransaction",                    
