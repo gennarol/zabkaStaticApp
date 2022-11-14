@@ -1,5 +1,6 @@
 ﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject NavigationManager NavManager
+@using Microsoft.AspNetCore.SignalR.Client
 
 @page "/summary"
 
@@ -82,7 +83,19 @@
 </section>
 
 @code {
+
+    public class Transaction
+    {
+        public string ConnectionId { get; set; }
+        public String ServiceName { get; set; }
+        public String Quantity { get; set; }
+        public String Amount { get; set; }
+    }
+
     private string? customerName;
+    private HubConnection _hubConnection;
+
+
     Request? current;
 
     protected async override Task OnParametersSetAsync()
@@ -91,11 +104,38 @@
 
     }
 
-    public void OK()
+    protected override async Task OnInitializedAsync()
+    {
+
+        base.OnInitialized();
+        _hubConnection = new HubConnectionBuilder()             
+            .WithUrl($"{NavManager.BaseUri}api")
+            .AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            })
+            .Build();
+
+        await _hubConnection.StartAsync();
+        Console.WriteLine(_hubConnection.ConnectionId);
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return _hubConnection.DisposeAsync();
+    }
+
+    public async void OK()
     {
         current.Completed = true;
-        sessionStorage.SetItemAsync<Request>("request", current);
-        NavManager.NavigateTo("/finalPage");
+        Transaction t = new Transaction();
+        t.ServiceName = "Bill payment";
+        t.Quantity = "1.00";
+        t.Amount = "100.00";
+        await sessionStorage.SetItemAsync<Request>("request", current);        
+        await _hubConnection.SendAsync("posTransaction", t);        
+        //NavManager.NavigateTo("/finalPage");
+        
     }
 
 }

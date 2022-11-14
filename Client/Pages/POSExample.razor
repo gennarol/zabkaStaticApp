@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@inject IJSRuntime JS   
+@inject NavigationManager NavManager
+@implements IAsyncDisposable
+
+
+@page "/posSimulator"
+
+<h3>POSExample</h3>
+
+<div class="job-offers__items-wrapper -active" data-accordion-content="it" style="height: auto;">
+    <div class="job-offers__items">
+        <div class="job-offers__list" id="#it">
+            @foreach(var message in messages)
+            {
+                <div class="job-offer">
+                    <dl class="job-offer__details">
+                        <dt class="job-offer__label title">
+                            Article
+                        </dt>
+                        <dd class="job-offer__value">
+                            <h4>
+                                @message.ServiceName
+                            </h4>
+                        </dd>
+
+                        <dt class="job-offer__label title">
+                            Qty
+                        </dt>
+                        <dd class="job-offer__value">
+                            @message.Quantity
+                        </dd>
+
+                        <dt class="job-offer__label title">
+                            Amount
+                        </dt>
+                        <dd class="job-offer__value">
+                            PLN: @message.Amount
+                        </dd>
+                    </dl>
+                </div>
+            }
+        </div>       
+    </div>
+</div>
+
+@code {
+    @code {
+        public class Transaction
+        {
+            public string ConnectionId { get; set; }
+            public String ServiceName { get; set; }
+            public String Quantity { get; set; }
+            public String Amount { get; set; }
+
+        }
+
+        private HubConnection? hubConnection;
+        private List<Transaction> messages = new List<Transaction>();
+        private string? userInput;
+        private string? messageInput;
+
+        protected override async Task OnInitializedAsync()
+        {
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl($"{NavManager.BaseUri}api")
+                .AddJsonProtocol(options => {
+                    options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+                })
+                .Build();
+
+            await JS.InvokeVoidAsync("console.log", "connected");
+            Console.WriteLine("Connected 2");
+                            
+            hubConnection.On<Transaction>("posTransaction", (message) =>
+            {
+                Console.WriteLine("messagge arrived");                
+                messages.Add(message);
+                InvokeAsync(StateHasChanged);
+            });
+
+            await hubConnection.StartAsync();
+
+            Console.WriteLine(hubConnection.ConnectionId);
+        }
+
+        public bool IsConnected =>
+            hubConnection?.State == HubConnectionState.Connected;
+
+        public async ValueTask DisposeAsync()
+        {
+            if (hubConnection is not null)
+            {
+                await hubConnection.DisposeAsync();
+            }
+        }
+    }
+}
