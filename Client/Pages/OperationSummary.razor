@@ -128,16 +128,16 @@
 
     public async void OK()
     {
-        current.Completed = true;
+        //current.Completed = true;
         Transaction t = new Transaction();
         t.ServiceName = "Bill payment";
         t.Quantity = "1.00";
         t.Amount = "100.00";
-        await sessionStorage.SetItemAsync<Request>("request", current);        
+        //await sessionStorage.SetItemAsync<Request>("request", current);        
         //await _hubConnection.SendAsync("posTransaction", t);
         await Http.PostAsync($"{NavManager.BaseUri}api/messages", JsonContent.Create(t, typeof(Transaction)));
         //Http.PostAsync($"{NavManager.BaseUri}api/messages", 
-        //NavManager.NavigateTo("/finalPage");
+        NavManager.NavigateTo("/finalPage");
         
     }
 
