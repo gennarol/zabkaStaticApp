@@ -1,4 +1,5 @@
-﻿@page "/finalPage"
+﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@page "/finalPage"
 
 <div class="service-teaser">
     <div class="service-teaser__image-wrap" style="background-image: url('https://media.zabka.pl/promotion_teaser/v5/uploads/media/611d0d11c57db/zabka-wygodne-uslugi-wyplata-na-karte-box.png')">
@@ -11,12 +12,29 @@
         <ul class="list">
             <li class="list__item service-teaser__list-item">Close this page</li>            
             <li class="list__item service-teaser__list-item">Continue the chechout of the transaction on POS</li>
-        </ul>        
+        </ul>
+<a onclick="aggiungiArticoloInterno(@current.Amount,'@current.BillNumber', '@current.CustomerName')" id="cooperation_submit" name="cooperation[submit]" class="button cooperation__form-submit" disabled="disabled">
+    Back To POS <span class="icon button__icon -right">
+        <svg>
+            <use xlink:href="#icon-arrow-right"></use>
+        </svg>
+    </span>
+</a>
     </div>
 </div>
 
 
 
+
+
 @code {
+    Request? current = new Request();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        current = await sessionStorage.GetItemAsync<Request>("request");
+
+    }
+
 
 }

@@ -105,6 +105,18 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+
+    <script>
+        function aggiungiArticoloInterno(price, billNumber, customerName) {       
+            var bill = {
+                "ItemId": "B_PAY", "Quantity": 1.00, "Price": 123.00, "BarcodeEmbeddedPrice": price, "PriceInBarcode": true, "Comment": "Bill No: " + billNumber + " - Customer: " + customerName};
+            var fee = { "ItemId": "B_FEE", "Quantity": 1.00, "Price": 0.40, "BarcodeEmbeddedPrice": 0.4, "PriceInBarcode": true, "Comment": "Bill No: " + billNumber + " - Customer: " + customerName };
+            var cartLines = [bill, fee];
+            parent.window.postMessage(cartLines, '*');
+        }
+
+    </script>
+
 </body>
 
 </html>

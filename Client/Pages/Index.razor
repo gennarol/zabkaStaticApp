@@ -84,7 +84,7 @@
 @code {
     private string? customerName;
 
-    Request? current;
+    Request? current = new Request();
 
     protected async override Task OnParametersSetAsync()
     {

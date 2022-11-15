@@ -6,6 +6,11 @@
         public string Password { get; set; }
 
         public string CustomerName { get; set; }
+
+        public string CustomerAddress { get; set; }
+
+        public string Issuer { get; set; }
+        public string IssuerAccountNum { get; set; }
         public string BillNumber { get; set; }
         public double Amount { get; set; }
 

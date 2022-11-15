@@ -39,7 +39,7 @@
                                    
                                 </span>
                             </a>
-                            <h3 class="title -h5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Enel S.p.a.</font></font></h3>
+                            <h3 class="title -h5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@current?.Issuer</font></font></h3>
                             <p class="text -large -marked"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ul. </font><font style="vertical-align: inherit;">Street 1234</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">61-586 Poznań</font></font></p>
                         </div>
                     </div>                    
@@ -63,21 +63,23 @@
                                     </svg>
                                 </span>
                             </a>
-                            <h3 class="title -h5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Payment for Energy bill</font></font></h3>
-                            <p class="text -large -marked"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PLN </font><font style="vertical-align: inherit;">80.00</font></font><br></p>
+                            <h3 class="title -h5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@current?.IssuerAccountNum</font></font></h3>
+                            <p class="text -large -marked"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PLN </font><font style="vertical-align: inherit;">@current?.Amount</font></font><br></p>
                         </div>
                     </div>
                 </div>
                 <div class="form__row -tight">
                     <div class="form__inner">
                     </div>
-                </div> <a @onclick="OK" id="cooperation_submit" name="cooperation[submit]" class="button cooperation__form-submit" disabled="disabled">
+                </div> 
+                <a @onclick="OK" id="cooperation_submit" name="cooperation[submit]" class="button cooperation__form-submit" disabled="disabled">
                     Confirm <span class="icon button__icon -right">
                         <svg>
                             <use xlink:href="#icon-arrow-right"></use>
                         </svg>
                     </span>
                 </a>
+                <a onclick="aggiungiArticoloInterno();">Aggiungi articolo al pos</a>
             </div>
         </div>
     </div>
@@ -97,7 +99,7 @@
     private HubConnection _hubConnection;
 
 
-    Request? current;
+    Request? current = new Request();
 
     protected async override Task OnParametersSetAsync()
     {
@@ -108,17 +110,18 @@
     protected override async Task OnInitializedAsync()
     {
 
-        base.OnInitialized();
-        _hubConnection = new HubConnectionBuilder()             
-            .WithUrl($"{NavManager.BaseUri}api")
-            .AddJsonProtocol(options =>
-            {
-                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
-            })
-            .Build();
+        /*   base.OnInitialized();
+           _hubConnection = new HubConnectionBuilder()
+               .WithUrl($"{NavManager.BaseUri}api")
+               .AddJsonProtocol(options =>
+               {
+                   options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+               })
+               .Build();
 
-        await _hubConnection.StartAsync();
-        Console.WriteLine(_hubConnection.ConnectionId);
+           await _hubConnection.StartAsync();
+           Console.WriteLine(_hubConnection.ConnectionId);         
+          */
     }
 
     public ValueTask DisposeAsync()
@@ -128,15 +131,18 @@
 
     public async void OK()
     {
-        //current.Completed = true;
-        Transaction t = new Transaction();
+        /*
+         * Transaction t = new Transaction();
         t.ServiceName = "Bill payment";
         t.Quantity = "1.00";
         t.Amount = "100.00";
-        //await sessionStorage.SetItemAsync<Request>("request", current);        
+        //await sessionStorage.SetItemAsync<Request>("request", current);
         //await _hubConnection.SendAsync("posTransaction", t);
         await Http.PostAsync($"{NavManager.BaseUri}api/messages", JsonContent.Create(t, typeof(Transaction)));
-        //Http.PostAsync($"{NavManager.BaseUri}api/messages", 
+        //Http.PostAsync($"{NavManager.BaseUri}api/messages",
+         */
+        //current.Completed = true;
+        
         NavManager.NavigateTo("/finalPage");
         
     }
